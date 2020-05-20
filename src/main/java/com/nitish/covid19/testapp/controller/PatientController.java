@@ -41,7 +41,11 @@ public class PatientController {
 
     @PutMapping("/patient")
     public void updatePatient(@RequestBody Patient patient){
-        patientService.updatePatient(patient);
+        try {
+            patientService.updatePatient(patient);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     @DeleteMapping("/patient/{patientId}")
