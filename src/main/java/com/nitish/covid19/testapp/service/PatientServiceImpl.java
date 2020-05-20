@@ -1,9 +1,13 @@
 package com.nitish.covid19.testapp.service;
 
 
+import com.nitish.covid19.testapp.exception.UpdateNotAuthorizedException;
 import com.nitish.covid19.testapp.pojo.Patient;
 import com.nitish.covid19.testapp.repository.PatientRepository;
+import com.nitish.covid19.testapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,7 +40,14 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void updatePatient(Patient patient) {
+    public void updatePatient(Patient patient) throws UpdateNotAuthorizedException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails user = (MyUserDetails) auth.getPrincipal();
+
+        if(!patient.getUsername().equals(user.getUsername())) {
+            throw new UpdateNotAuthorizedException("You are not authorized to do this update");
+        }
+
         patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         patient.setRole("ROLE_USER");
         patientRepository.save(patient);
