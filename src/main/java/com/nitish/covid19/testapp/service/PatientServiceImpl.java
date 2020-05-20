@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PatientServiceImpl implements PatientService, UserDetailsService {
+public class PatientServiceImpl implements PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
@@ -30,7 +30,7 @@ public class PatientServiceImpl implements PatientService, UserDetailsService {
 
     @Override
     public void createPatient(Patient patient) {
-        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+        //patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         patientRepository.save(patient);
     }
 
@@ -48,10 +48,5 @@ public class PatientServiceImpl implements PatientService, UserDetailsService {
     @Override
     public void deletePatient(int id) {
         patientRepository.deleteById(id);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Optional<Patient> patient = patientRepository.findById(s);
     }
 }

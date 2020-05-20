@@ -27,7 +27,7 @@ public class Patient {
     @NotNull(message = "Email cannot be null")
     @NotBlank
     @Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="Please provide a valid email address")
-    private String email;
+    private String username;
 
     @NotNull(message = "Age cannot be null")
     @Min(0)
@@ -63,12 +63,12 @@ public class Patient {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getAge() {

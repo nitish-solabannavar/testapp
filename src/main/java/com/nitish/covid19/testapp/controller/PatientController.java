@@ -3,8 +3,10 @@ package com.nitish.covid19.testapp.controller;
 import com.nitish.covid19.testapp.pojo.Patient;
 import com.nitish.covid19.testapp.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class PatientController {
         return patientService.getPatientById(patientId);
     }
 
+    //@PermitAll
     @PostMapping("/patient")
     public void savePatient(@RequestBody Patient patient){
         try {
