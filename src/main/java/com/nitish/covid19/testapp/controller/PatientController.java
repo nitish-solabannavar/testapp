@@ -19,7 +19,7 @@ public class PatientController {
 
     @GetMapping("/")
     public String hello(){
-        return "<h2>Hello World!</h2>";
+        return "<h2>Hello World! How you doing?</h2>";
     }
 
     @GetMapping("/get")
