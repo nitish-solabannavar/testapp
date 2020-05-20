@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/testapp/register").permitAll()
-                .antMatchers("/testapp/update").permitAll()
+                .antMatchers("/testapp/update").hasRole("USER")
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -47,6 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 }

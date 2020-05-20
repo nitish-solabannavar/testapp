@@ -18,23 +18,25 @@ public class PatientController {
     PatientService patientService;
 
     @GetMapping("/")
+    @Secured ({"ROLE_ADMIN"})
     public String hello(){
         return "<h2>Hello World! How you doing?</h2>";
     }
 
     @GetMapping("/get")
+    @Secured ({"ROLE_ADMIN"})
     public List<Patient> getPatients(){
         return patientService.getPatient();
     }
 
     @GetMapping("/get/{patientId}")
+    @Secured ({"ROLE_ADMIN"})
     public Patient getPatientById(@PathVariable int patientId){
         return patientService.getPatientById(patientId);
     }
 
-    //@PermitAll
     @PostMapping("/register")
-    public void savePatient(@RequestBody Patient patient){
+    public void savePatient(@Valid @RequestBody Patient patient){
         try {
             patientService.createPatient(patient);
         }catch(Exception ex){
@@ -43,7 +45,7 @@ public class PatientController {
     }
 
     @PutMapping("/update")
-    public void updatePatient(@RequestBody Patient patient){
+    public void updatePatient(@Valid @RequestBody Patient patient){
         try {
             patientService.updatePatient(patient);
         }catch (Exception ex){
@@ -52,6 +54,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/delete/{patientId}")
+    @Secured ({"ROLE_ADMIN"})
     public void deletePatient(@PathVariable int patientId){
         patientService.deletePatient(patientId);
     }

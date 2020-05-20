@@ -30,12 +30,15 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void createPatient(Patient patient) {
-        //patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+        patient.setRole("ROLE_USER");
         patientRepository.save(patient);
     }
 
     @Override
     public void updatePatient(Patient patient) {
+        patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+        patient.setRole("ROLE_USER");
         patientRepository.save(patient);
     }
 

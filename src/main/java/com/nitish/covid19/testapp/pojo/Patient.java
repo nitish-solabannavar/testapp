@@ -1,5 +1,7 @@
 package com.nitish.covid19.testapp.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +38,9 @@ public class Patient {
     @NotNull(message = "Password cannot be null")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="Password must contain min 8 characters, a uppercase letter, a lowercase letter and a special character")
     private String password;
+
+    @JsonIgnore
+    private String role;
 
     public Patient(){}
 
@@ -85,5 +90,13 @@ public class Patient {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
