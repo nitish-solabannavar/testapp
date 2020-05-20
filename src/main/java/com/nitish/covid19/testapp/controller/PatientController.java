@@ -22,18 +22,18 @@ public class PatientController {
         return "<h2>Hello World!</h2>";
     }
 
-    @GetMapping("/patient")
+    @GetMapping("/get")
     public List<Patient> getPatients(){
         return patientService.getPatient();
     }
 
-    @GetMapping("/patient/{patientId}")
+    @GetMapping("/get/{patientId}")
     public Patient getPatientById(@PathVariable int patientId){
         return patientService.getPatientById(patientId);
     }
 
     //@PermitAll
-    @PostMapping("/patient")
+    @PostMapping("/register")
     public void savePatient(@RequestBody Patient patient){
         try {
             patientService.createPatient(patient);
@@ -42,7 +42,7 @@ public class PatientController {
         }
     }
 
-    @PutMapping("/patient")
+    @PutMapping("/update")
     public void updatePatient(@RequestBody Patient patient){
         try {
             patientService.updatePatient(patient);
@@ -51,7 +51,7 @@ public class PatientController {
         }
     }
 
-    @DeleteMapping("/patient/{patientId}")
+    @DeleteMapping("/delete/{patientId}")
     public void deletePatient(@PathVariable int patientId){
         patientService.deletePatient(patientId);
     }

@@ -15,18 +15,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-//@Configuration
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    MyDetailsUserService myDetailsUserService;
+    @Qualifier("myDetailsUserService")
+    UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/testapp/patient").permitAll()
-                //.antMatchers(HttpMethod.PUT, "/testapp/patient").permitAll()
+        http.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/testapp/register").permitAll()
+                .antMatchers("/testapp/update").permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
@@ -40,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder authentication)
             throws Exception
     {
-        authentication.userDetailsService(myDetailsUserService);
+        authentication.userDetailsService(userDetailsService);
     }
 
     @Bean
