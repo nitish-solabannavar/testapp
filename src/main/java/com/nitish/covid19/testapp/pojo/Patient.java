@@ -1,7 +1,5 @@
 package com.nitish.covid19.testapp.pojo;
 
-
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
