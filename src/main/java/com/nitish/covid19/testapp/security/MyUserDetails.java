@@ -18,6 +18,7 @@ public class MyUserDetails implements UserDetails {
     public MyUserDetails(Patient patient){
         this.username = patient.getUsername();
         this.password = patient.getPassword();
+        this.authorityList = Arrays.asList(new SimpleGrantedAuthority(patient.getRole()));
     }
 
     public MyUserDetails(){
@@ -25,7 +26,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorityList;
     }
 
     @Override
