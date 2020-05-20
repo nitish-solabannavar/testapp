@@ -15,25 +15,25 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull(message = "First Name cannot be null")
-    @NotBlank
+    //@NotNull(message = "First Name cannot be null")
+    //@NotBlank
     private String firstName;
 
-    @NotNull(message = "Last Name cannot be null")
-    @NotBlank
+    //@NotNull(message = "Last Name cannot be null")
+    //@NotBlank
     private String lastName;
 
-    @NotNull(message = "Email cannot be null")
-    @NotBlank
-    @Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="Please provide a valid email address")
+    //@NotNull(message = "Email cannot be null")
+    //@NotBlank
+    //@Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",message="Please provide a valid email address")
     private String email;
 
-    @NotNull(message = "Age cannot be null")
-    @NotBlank
+    //@NotNull(message = "Age cannot be null")
+    //@NotBlank
     private int age;
 
-    @NotNull(message = "Password cannot be null")
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="Password must contain min 8 characters, a uppercase letter, a lowercase letter and a special character")
+    //@NotNull(message = "Password cannot be null")
+    //@Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="Password must contain min 8 characters, a uppercase letter, a lowercase letter and a special character")
     private String password;
 
     public Patient(){}

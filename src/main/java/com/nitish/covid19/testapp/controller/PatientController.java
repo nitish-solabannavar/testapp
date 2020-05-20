@@ -31,7 +31,7 @@ public class PatientController {
     }
 
     @PostMapping("/patient")
-    public void savePatient(@Valid @RequestBody Patient patient){
+    public void savePatient(@RequestBody Patient patient){
         try {
             patientService.createPatient(patient);
         }catch(Exception ex){
@@ -40,7 +40,7 @@ public class PatientController {
     }
 
     @PutMapping("/patient")
-    public void updatePatient(@Valid @RequestBody Patient patient){
+    public void updatePatient(@RequestBody Patient patient){
         patientService.updatePatient(patient);
     }
 
