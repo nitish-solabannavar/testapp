@@ -12,7 +12,7 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int testId;
 
-    //@JsonIgnore
+    @JsonIgnore
     //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
