@@ -2,14 +2,13 @@ package com.nitish.covid19.testapp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Patient {
@@ -42,7 +41,12 @@ public class Patient {
     @JsonIgnore
     private String role;
 
-    public Patient(){}
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
+    private Set<Test> test;
+
+    public Patient(){
+        this.test = new HashSet<>();
+    }
 
     public int getId() {
         return id;
@@ -98,5 +102,16 @@ public class Patient {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Set<Test> getTest() {
+        return test;
+    }
+
+    public void setTest(Set<Test> test) {
+        this.test = test;
+        for (Test tests : test) {
+            tests.setPatient(this);
+        }
     }
 }

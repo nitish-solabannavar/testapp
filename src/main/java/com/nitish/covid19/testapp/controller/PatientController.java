@@ -5,8 +5,6 @@ import com.nitish.covid19.testapp.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 
