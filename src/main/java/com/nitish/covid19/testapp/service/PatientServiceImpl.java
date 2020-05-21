@@ -2,19 +2,15 @@ package com.nitish.covid19.testapp.service;
 
 
 import com.nitish.covid19.testapp.exception.UpdateNotAuthorizedException;
+import com.nitish.covid19.testapp.exception.UsernameExistsException;
 import com.nitish.covid19.testapp.pojo.Patient;
 import com.nitish.covid19.testapp.repository.PatientRepository;
 import com.nitish.covid19.testapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +29,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void createPatient(Patient patient) {
+    public void createPatient(Patient patient) throws UsernameExistsException {
+        Optional<Patient> exist = patientRepository.findByUsername(patient.getUsername());
+
+        if(!exist.isEmpty()){
+            throw new UsernameExistsException("This username already exists");
+        }
+
         patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         patient.setRole("ROLE_USER");
         patientRepository.save(patient);
