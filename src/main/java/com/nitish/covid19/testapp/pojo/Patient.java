@@ -1,13 +1,18 @@
 package com.nitish.covid19.testapp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -41,12 +46,12 @@ public class Patient {
     @JsonIgnore
     private String role;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private Set<Test> test;
+    //@JsonIgnore
+    //@JsonManagedReference
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade={CascadeType.ALL})
+    private List<Test> test;
 
-    public Patient(){
-        this.test = new HashSet<>();
-    }
+    public Patient(){ }
 
     public int getId() {
         return id;
@@ -104,14 +109,26 @@ public class Patient {
         this.role = role;
     }
 
-    public Set<Test> getTest() {
+    public List<Test> getTest() {
         return test;
     }
 
-    public void setTest(Set<Test> test) {
+    public void setTest(List<Test> test) {
         this.test = test;
-        for (Test tests : test) {
-            tests.setPatient(this);
-        }
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", age=" + age +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

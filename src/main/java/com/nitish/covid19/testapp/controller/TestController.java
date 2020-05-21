@@ -2,15 +2,19 @@ package com.nitish.covid19.testapp.controller;
 
 import com.nitish.covid19.testapp.pojo.Test;
 import com.nitish.covid19.testapp.service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
+@RequestMapping("/testing")
 public class TestController {
 
+    @Autowired
     TestService testService;
 
     @GetMapping("/get")
@@ -21,7 +25,7 @@ public class TestController {
 
     @GetMapping("/get/{testId}")
     @Secured ({"ROLE_ADMIN"})
-    public Test getTestById(@PathVariable int testId){
+    public Set<Test> getTestById(@PathVariable int testId){
         return testService.getTestById(testId);
     }
 
