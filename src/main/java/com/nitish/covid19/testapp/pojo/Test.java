@@ -21,6 +21,7 @@ public class Test {
 
     private String result;
 
+    //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "test_date")
     private TestDates testDates;

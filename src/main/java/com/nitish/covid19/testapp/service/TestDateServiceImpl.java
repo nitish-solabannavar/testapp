@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -49,5 +50,15 @@ public class TestDateServiceImpl implements TestDateService {
 
         testDates.addTest(test);
         testDatesRepository.save(testDates);
+    }
+
+    @Override
+    public void updateTest(TestDates testDates) {
+        testDatesRepository.save(testDates);
+    }
+
+    @Override
+    public List<TestDates> getTestDates() {
+        return testDatesRepository.findAll();
     }
 }
