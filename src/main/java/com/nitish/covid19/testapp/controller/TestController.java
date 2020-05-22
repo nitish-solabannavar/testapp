@@ -25,7 +25,7 @@ public class TestController {
 
     @GetMapping("/get/{testId}")
     @Secured ({"ROLE_ADMIN"})
-    public Set<Test> getTestById(@PathVariable int testId){
+    public Test getTestById(@PathVariable int testId){
         return testService.getTestById(testId);
     }
 

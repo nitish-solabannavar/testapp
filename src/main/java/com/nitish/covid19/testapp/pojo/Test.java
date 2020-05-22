@@ -2,8 +2,10 @@ package com.nitish.covid19.testapp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Test {
@@ -13,12 +15,15 @@ public class Test {
     private int testId;
 
     @JsonIgnore
-    //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
     private String result;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "test_date")
+    private TestDates testDates;
 
     public Test() {
     }
@@ -51,11 +56,12 @@ public class Test {
         this.result = result;
     }
 
-    @Override
-    public String toString() {
-        return "Test{" +
-                "testId=" + testId +
-                ", result='" + result + '\'' +
-                '}';
+    public TestDates getTestDates() {
+        return testDates;
     }
+
+    public void setTestDates(TestDates testDates) {
+        this.testDates = testDates;
+    }
+
 }
