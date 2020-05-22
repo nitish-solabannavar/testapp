@@ -71,6 +71,8 @@ public class TestServiceImpl implements TestService{
 
     @Override
     public void updateTest(Test test) {
+        Optional<Test> t = testRepository.findById(test.getTestId());
+        test.setPatient(t.get().getPatient());
         testRepository.save(test);
     }
 

@@ -1,9 +1,7 @@
 package com.nitish.covid19.testapp.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -37,7 +35,7 @@ public class Patient {
     @Min(0)
     private int age;
 
-    @JsonIgnore
+    //@JsonIgnore
     @NotNull(message = "Password cannot be null")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="Password must contain min 8 characters, a uppercase letter, a lowercase letter and a special character")
     private String password;
@@ -45,6 +43,7 @@ public class Patient {
     @JsonIgnore
     private String role;
 
+    //@JsonIgnore
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade={CascadeType.ALL})
     private List<Test> test;
 
