@@ -11,9 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Patient {
@@ -39,6 +37,7 @@ public class Patient {
     @Min(0)
     private int age;
 
+    @JsonIgnore
     @NotNull(message = "Password cannot be null")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}",message="Password must contain min 8 characters, a uppercase letter, a lowercase letter and a special character")
     private String password;
@@ -46,8 +45,6 @@ public class Patient {
     @JsonIgnore
     private String role;
 
-    //@JsonIgnore
-    //@JsonManagedReference
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade={CascadeType.ALL})
     private List<Test> test;
 
@@ -113,11 +110,18 @@ public class Patient {
         return test;
     }
 
-    public void setTest(List<Test> test) {
-        this.test = test;
+    //public void setTest(List<Test> test) {
+      //  this.test = test;
+   // }
+
+    public void addTest(Test t){
+        if(this.test == null){
+            this.test = new ArrayList<>();
+        }
+
+        this.test.add(t);
+        t.setPatient(this);
     }
-
-
 
     @Override
     public String toString() {

@@ -6,23 +6,16 @@ import com.nitish.covid19.testapp.pojo.Test;
 import com.nitish.covid19.testapp.pojo.TestDates;
 import com.nitish.covid19.testapp.repository.PatientRepository;
 import com.nitish.covid19.testapp.repository.TestDatesRepository;
-import com.nitish.covid19.testapp.repository.TestRepository;
 import com.nitish.covid19.testapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
-public class TestServiceImpl implements TestService{
-
-    @Autowired
-    TestRepository testRepository;
+public class TestDateServiceImpl implements TestDateService {
 
     @Autowired
     PatientRepository patientRepository;
@@ -31,24 +24,14 @@ public class TestServiceImpl implements TestService{
     TestDatesRepository testDatesRepository;
 
     @Override
-    public List<Test> getTest() {
-        return testRepository.findAll();
-    }
-
-    @Override
-    public Test getTestById(int id) {
-        Optional<Test> test = testRepository.findById(id);
-        return test.get();
-    }
-
-    @Override
-    public void createTest(Test test) throws NoMoreTestsAvailableForTheDayException {
+    public void createTestDates(TestDates testDates) throws NoMoreTestsAvailableForTheDayException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails user = (MyUserDetails) auth.getPrincipal();
 
-        Optional<Patient> patient = patientRepository.findByUsername(user.getUsername());
+        Test test = new Test();
 
-        TestDates testDates = test.getTestDates();
+        Optional<Patient> patient = patientRepository.findByUsername(user.getUsername());
+        test.setPatient(patient.get());
 
         Optional<TestDates> opTe = testDatesRepository.findByDate(testDates.getDate());
 
@@ -65,17 +48,6 @@ public class TestServiceImpl implements TestService{
         }
 
         testDates.addTest(test);
-     //   patient.get().addTest(test);
         testDatesRepository.save(testDates);
-    }
-
-    @Override
-    public void updateTest(Test test) {
-        testRepository.save(test);
-    }
-
-    @Override
-    public void deleteTest(int id) {
-        testRepository.deleteById(id);
     }
 }
