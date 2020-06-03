@@ -8,12 +8,15 @@ import com.nitish.covid19.testapp.repository.PatientRepository;
 import com.nitish.covid19.testapp.repository.TestDatesRepository;
 import com.nitish.covid19.testapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class TestDateServiceImpl implements TestDateService {
@@ -23,6 +26,9 @@ public class TestDateServiceImpl implements TestDateService {
 
     @Autowired
     TestDatesRepository testDatesRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public void createTestDates(TestDates testDates) throws NoMoreTestsAvailableForTheDayException {
@@ -50,6 +56,17 @@ public class TestDateServiceImpl implements TestDateService {
 
         testDates.addTest(test);
         testDatesRepository.save(testDates);
+        sendEmail(testDates, patient.get());
+    }
+
+    void sendEmail(TestDates t, Patient p) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(p.getUsername());
+
+        msg.setSubject("Covid-19 Test booking");
+        msg.setText("Hello " + p.getFirstName() + ",\nYour Covid-19 test has been booked for the date "+t.getDate()+".\nStay home. Stay safe.\n\nBest,\nCovid-19 Testing Center");
+
+        javaMailSender.send(msg);
     }
 
     @Override
