@@ -9,6 +9,8 @@ import com.nitish.covid19.testapp.repository.TestDatesRepository;
 import com.nitish.covid19.testapp.repository.TestRepository;
 import com.nitish.covid19.testapp.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,10 @@ public class TestServiceImpl implements TestService{
 
     @Autowired
     TestDatesRepository testDatesRepository;
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
 
     @Override
     public List<Test> getTest() {
@@ -74,6 +80,22 @@ public class TestServiceImpl implements TestService{
         Optional<Test> t = testRepository.findById(test.getTestId());
         test.setPatient(t.get().getPatient());
         testRepository.save(test);
+        sendEmail(test);
+    }
+
+    void sendEmail(Test t) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(t.getPatient().getUsername());
+
+        msg.setSubject("Covid-19 Test results");
+        if(t.getResult().equals("Negative")) {
+            msg.setText("Hello " + t.getPatient().getFirstName() + ",\nYour Covid-19 test result came out to be Negative.\nStay home. Stay safe.\n\nBest,\nCovid-19 Testing Center");
+        }
+        else{
+            msg.setText("Hello " + t.getPatient().getFirstName() + ",\nYour Covid-19 test result came out to be Positive.\nVisit a nearby hospital if you show any symptom.\nStay safe!!\n\nBest,\nCovid-19 Testing Center");
+        }
+
+        javaMailSender.send(msg);
     }
 
     @Override
